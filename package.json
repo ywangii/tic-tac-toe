@@ -1,0 +1,22 @@
+{
+  "name": "tic-tac-toe",
+  "version": "1.0.0",
+  "description": "A simple cli game for practice",
+  "main": "ticTacToe.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ywangii/tic-tac-toe.git"
+  },
+  "author": "Yiding Wang <ywaaang@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ywangii/tic-tac-toe/issues"
+  },
+  "homepage": "https://github.com/ywangii/tic-tac-toe#readme",
+  "dependencies": {
+    "prompt": "^1.0.0"
+  }
+}
