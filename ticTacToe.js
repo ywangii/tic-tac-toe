@@ -10,8 +10,12 @@ let board = [
 ];
 
 function updateBoard(pos, mark) {
-  board[pos[0]][pos[1]] = mark.toUpperCase();
-  return;
+  if (board[pos[0]][pos[1]] === '-') {
+    board[pos[0]][pos[1]] = mark.toUpperCase();
+    return true;
+  }
+
+  return false;
 }
 
 function printBoard() {
@@ -81,7 +85,12 @@ function switchPlayer(player) {
   prompt.get(['row', 'column'], (err, result) => {
     if (err) return console.error('Error happens when get the user input');
 
-    updateBoard([result.row, result.column], player);
+    const isUpdated = updateBoard([result.row, result.column], player);
+
+    if (!isUpdated) {
+      console.log(`The position has a mark, please try again.`);
+      return switchPlayer(player);
+    }
 
     if (isWin(player)) {
       console.log(`${player} win the game!`);
@@ -91,7 +100,7 @@ function switchPlayer(player) {
 
     if (boardFull()) {
       console.log('Tie game!');
-      printboard();
+      printBoard();
       process.exit();
     }
 
