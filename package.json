@@ -2,7 +2,7 @@
   "name": "tic-tac-toe",
   "version": "1.0.0",
   "description": "A simple cli game for practice",
-  "main": "ticTacToe.js",
+  "main": "naive-cli/ticTacToe.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },

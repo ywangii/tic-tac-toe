@@ -10,6 +10,7 @@ let board = [
 ];
 
 function updateBoard(pos, mark) {
+  if (pos[0] >= board.length || pos[1] >= board[0].length) return false;
   if (board[pos[0]][pos[1]] === '-') {
     board[pos[0]][pos[1]] = mark.toUpperCase();
     return true;
@@ -88,7 +89,7 @@ function switchPlayer(player) {
     const isUpdated = updateBoard([result.row, result.column], player);
 
     if (!isUpdated) {
-      console.log(`The position has a mark, please try again.`);
+      console.log(`The position is invalid, please try again.`);
       return switchPlayer(player);
     }
 
