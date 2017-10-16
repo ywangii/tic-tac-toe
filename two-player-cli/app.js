@@ -20,6 +20,7 @@ let gameObject = {
 };
 
 function updateBoard(pos, mark) {
+  if (pos[0] >= board.length || pos[1] >= board[0].length) return false;
   if (board[pos[0]][pos[1]] === '-') {
     board[pos[0]][pos[1]] = mark.toUpperCase();
 
@@ -83,6 +84,7 @@ function boardFull() {
 }
 
 function sendResponse(socket, res) {
+  console.dir(socket);
   return socket.send(res);
 }
 
@@ -93,8 +95,8 @@ function disconnect(socket) {
 function playGame() {
   const players = gameObject.socketObject;
   // Send latest board to each player
-  players.forEach(player => {
-    sendResponse(player, {
+  Object.keys(players).forEach(player => {
+    sendResponse(players[player], {
       type: 'baord',
       board
     });
@@ -119,7 +121,7 @@ function playGame() {
         });
 
         if (!isUpdated) {
-            console.log(`The position has a mark, please try again.`);
+            console.log(`The position is invalid, please try again.`);
             sendResponse(socket, {
               type: 'mark',
               mark: gameObject.currentMark
