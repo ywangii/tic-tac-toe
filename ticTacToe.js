@@ -77,7 +77,7 @@ function boardFull() {
 }
 
 function switchPlayer(player) {
-  console.log('It\'s your turn now, please choose your position');
+  console.log(`It's ${player}'s turn now, please choose your position`);
   // X
   // O
   printBoard();
