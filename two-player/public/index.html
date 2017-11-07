@@ -1,0 +1,98 @@
+<table>
+  <tr>
+    <td id='row0-col0'>-</td>
+    <td id='row0-col1'>-</td>
+    <td id='row0-col2'>-</td>
+  </tr>
+  <tr>
+    <td id='row1-col0'>-</td>
+    <td id='row1-col1'>-</td>
+    <td id='row1-col2'>-</td>
+  </tr>
+  <tr>
+    <td id='row2-col0'>-</td>
+    <td id='row2-col1'>-</td>
+    <td id='row2-col2'>-</td>
+  </tr>
+</table>
+<textarea></textarea>
+<form id="submit">
+  <input id='row' type='number' step='1' min='0' max='2'></input>
+  <input id='column' type='number' step='1' min='0' max='2'></input>
+  <button>Send</button>
+</form>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.js'></script>
+<script>
+  const socket = io('http://localhost:3000/');
+
+  const textarea = document.querySelector('textarea');
+
+  const form = document.querySelector('#submit');
+
+  form.addEventListener('submit', function (evt) {
+    evt.preventDefault();
+  });
+
+  function log(str) {
+    textarea.textContent = '';
+    textarea.textContent += str;
+  }
+
+  function printBoard(board) {
+    for (let row = 0; row < board.length; row++) {
+      for (let col = 0; col < board[0].length; col++) {
+        const cell = document.querySelector(`#row${row}-col${col}`);
+        cell.textContent = board[row][col];
+      }
+    }
+  }
+
+  function switchPlayer(player, cb) {
+    const form = document.querySelector('#submit');
+    let row = document.querySelector('#row');
+    let column = document.querySelector('#column');
+
+    form.addEventListener('submit', function clickFunction (evt) {
+      // Disable the button after submission
+      row = row.value;
+      column = column.value;
+      cb([row, column]);
+      document.getElementById('row').value = "";
+      document.getElementById('column').value = "";
+      form.removeEventListener('submit', clickFunction);
+      return;
+    });
+
+    // Enable the button
+  }
+
+  socket.on('connect', function(){
+    log('Connecting to socket.io server');
+  });
+
+  socket.on('message', function(data){
+    if (data.type === 'board') {
+      printBoard(data.board);
+    }
+
+    if (data.type === 'mark') {
+      switchPlayer(data.mark, function (pos) {
+        socket.send({
+          type: 'position',
+          pos
+        });
+      });
+    }
+
+    if (data.type === 'log') {
+      log(data.log);
+    }
+
+    if (data.type === 'error') {
+      log(`Connection failed due to ${data.error}`);
+    }
+  });
+
+  socket.on('disconnect', function(){});
+</script>
+

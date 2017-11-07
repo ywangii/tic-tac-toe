@@ -84,7 +84,6 @@ function boardFull() {
 }
 
 function sendResponse(socket, res) {
-  console.dir(socket);
   return socket.send(res);
 }
 

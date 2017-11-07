@@ -32,6 +32,7 @@ socket.on('connect', function(){
 socket.on('message', function(data){
   if (data.type === 'board') {
     printBoard(data.board);
+    console.log('***************');
   }
 
   if (data.type === 'mark') {
